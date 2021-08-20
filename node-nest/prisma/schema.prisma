@@ -1,0 +1,26 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Colaboradores {
+  id    Int    @id @default(autoincrement())
+  nome  String
+  idade Int?
+
+  empresas   Empresas? @relation(fields: [empresasId], references: [id])
+  empresasId Int?
+}
+
+model Empresas {
+  id            Int             @id @default(autoincrement())
+  razaoSocial   String          @unique
+  colaboradores Colaboradores[]
+}
